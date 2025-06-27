@@ -1,6 +1,25 @@
 @import "tailwindcss";
 
-body {
-  background-color: #171717;
-  /* Tailwind's bg-neutral-900 */
+.copilotKitChat {
+  height: 100vh;
 }
+ol {
+  list-style-type: decimal;
+  margin-left: 1.5rem;
+}
+ul {
+  list-style-type: disc;
+  margin-left: 1.5rem;
+}
+/* .copilotKitMarkdown ul, .copilotKitMarkdown ol {
+  margin-bottom: 0.5rem;
+}
+.copilotKitMarkdown ul li {
+  list-style-type: disc;
+  list-style-position: inside;
+}
+
+.copilotKitMarkdown ol li {
+  list-style-type: decimal;
+  list-style-position: inside;
+} */

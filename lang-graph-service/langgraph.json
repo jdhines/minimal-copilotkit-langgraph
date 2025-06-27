@@ -3,7 +3,7 @@
   "dockerfile_lines": [],
   "dependencies": ["."],
   "graphs": {
-    "sample_agent": "./sample_agent/agent.py:graph"
+    "sample_agent": "./sample_agent/demo.py:graph"
   },
   "env": ".env"
 }

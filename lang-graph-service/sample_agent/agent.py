@@ -2,9 +2,10 @@
 This is the main entry point for the agent.
 It defines the workflow graph, state, tools, nodes and edges.
 """
-
+import os
+from dotenv import load_dotenv
 from typing_extensions import Literal
-from langchain_openai import ChatOpenAI
+from langchain_openai import AzureChatOpenAI
 from langchain_core.messages import SystemMessage, AIMessage
 from langchain_core.runnables import RunnableConfig
 from langchain.tools import tool
@@ -13,6 +14,7 @@ from langgraph.types import Command
 from langgraph.prebuilt.tool_node import ToolNode
 from copilotkit import CopilotKitState
 from langgraph.checkpoint.memory import InMemorySaver
+
 
 class AgentState(CopilotKitState):
     """
@@ -24,6 +26,7 @@ class AgentState(CopilotKitState):
     """
     proverbs: list[str] = []
     # your_custom_agent_state: str = ""
+
 
 @tool
 def get_weather(location: str):
@@ -38,10 +41,12 @@ def get_weather(location: str):
 #     print(f"Your tool logic here")
 #     return "Your tool response here."
 
+
 tools = [
     get_weather
     # your_tool_here
 ]
+
 
 async def chat_node(state: AgentState, config: RunnableConfig) -> Command[Literal["tool_node", "__end__"]]:
     """
@@ -54,9 +59,16 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> Command[Litera
     For more about the ReAct design pattern, see:
     https://www.perplexity.ai/search/react-agents-NcXLQhreS0WDzpVaS4m9Cg
     """
+    # Load environment variables
+    load_dotenv()
 
     # 1. Define the model
-    model = ChatOpenAI(model="gpt-4o")
+    model = AzureChatOpenAI(
+        model=os.getenv("AZURE_OPENAI_MODEL", "gpt-4.1-mini"),
+        api_version=os.getenv("AZURE_OPENAI_API_VERSION",
+                              "2025-01-01-preview"),
+        temperature=0.2
+    )
 
     # 2. Bind the tools to the model
     model_with_tools = model.bind_tools(

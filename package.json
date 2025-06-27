@@ -1,8 +1,15 @@
 {
   "name": "monorepo",
   "private": true,
+  "workspaces": [
+    "react-client",
+    "copilot-runtime-service"
+  ],
   "scripts": {
-    "dev": "concurrently --names \"react-client,lang-graph-agent,copilot-runtime\" \"pnpm --filter react-client dev\" \"cd lang-graph-service && poetry run python server.py\" \"cd copilot-runtime-service && pnpm run dev\"",
+    "dev": "concurrently --names \"react-client,lang-graph-agent,copilot-runtime\" \"npm run dev --workspace=react-client\" \"cd lang-graph-service && poetry run python server.py\" \"npm run dev --workspace=copilot-runtime-service\"",
+    "dev:react": "npm run dev --workspace=react-client",
+    "dev:langgraph": "cd lang-graph-service && poetry run python server.py",
+    "dev:runtime": "npm run dev --workspace=copilot-runtime-service",
     "postinstall": "(cd lang-graph-service && poetry install)"
   },
   "devDependencies": {

@@ -2,34 +2,107 @@
 
 Get all AG-UI features betwen langgraph and copilotkit working with minimal cloud/framework dependencies.
 
-![Minimal Preview](./react-client/minimal-preview.gif)
+## Project Structure
+
+This monorepo contains 3 interconnected projects that work together to demonstrate CopilotKit and LangGraph integration:
+
+- `react-client`: The frontend React application
+- `copilot-runtime-service`: The CopilotKit runtime service
+- `lang-graph-service`: The LangGraph agent service
+
+```sh
+[react-client]
+      |
+[copilot-runtime-service]
+      |
+[lang-graph-service]
+```
+
+## Setup
+
+1. **Clone the repo:**
+
+   ```sh
+   git clone https://github.com/jrhicks/minimal-copilotkit-langgraph.git
+   cd lang-graph-copilotkit
+   ```
+
+1. **Copy environment variables:**
+
+   ```sh
+   cp lang-graph-service/.env.example lang-graph-service/.env
+   # Edit lang-graph-service/.env and set your OPENAI_API_KEY and AZURE_OPENAI_ENDPOINT
+   ```
+
+1. **Create a Python virtual environment**
+
+   ```sh
+      python -m venv .venv
+      . ./.venv/Scripts/activate
+      # use command deactivate to get out of the venv when you want
+   ```
+
+1. **Install poetry**
+   Install the poetry package manager for python. [See how](https://python-poetry.org/docs/#installing-with-the-official-installer).
+
+1. **Install and start all services:**
+
+   ```sh
+      cd react-client && npm install
+      # because of the postinstall script in package.json, poetry should run now too.
+   ```
+
+   ```sh
+      cd ../copilot-runtime-service && npm install
+   ```
+
+   ```sh
+      # if the postinstall script didn't run, then install python requirements:
+      cd ../lang-graph-servicereact-client && poetry install
+   ```
+
+   Open a new terminal tab (or shell) for each service, and run:
+
+   ```sh
+      npm run dev:react
+      npm run dev:runtime
+      npm run dev:langgraph
+   ```
+
+- React client: http://localhost:5173
+- Copilot runtime: http://localhost:4000/copilotkit
+- LangGraph agent: http://localhost:8000/copilotkit
+
+---
 
 ## Minimal Cloud Dependencies
 
-* CopilitKit React without NextJS (Vite)
-* Self Hosted CopilotKit Runtime with Node.js HTTP
-* Self Hosted LangGraph Agent with FastAPI (LangGraph)
+- CopilitKit React without NextJS (Vite)
+- Self Hosted CopilotKit Runtime with Node.js HTTP
+- Self Hosted LangGraph Agent with FastAPI (LangGraph)
 
 ### CopilotKit UI
+
 - [ ] NextJS
 - [x] Vite
 
 ### CopilotKit Connection
+
 - [ ] Copilot Cloud
 - [x] Self-Hosted Copilot Runtime
 
 ### Self Hosted Copilot Runtime
-- [ ] Next.js App Router
-- [ ] Next.js Page Router
+
 - [ ] Node.js Express
 - [x] Node.js HTTP
-- [ ] NestJS
 
 ### LangGraph Language
+
 - [x] Python
 - [ ] Typescript
 
 ### LangGraph Agent
+
 - [ ] Local (LangGraph Studio)
 - [x] Self hosted (FastAPI)
 - [ ] LangGraph Platform
@@ -66,67 +139,15 @@ Demonstrates:
    - [ ] Elegant Content Presentation: Complex structured data (haikus) are beautifully displayed
 
 
-## Project Structure
-
-This monorepo contains 3 interconnected projects that work together to demonstrate CopilotKit and LangGraph integration:
-
-- `react-client`: The frontend React application
-- `copilot-runtime-service`: The CopilotKit runtime service
-- `lang-graph-service`: The LangGraph agent service
-
-All projects can be installed and run from the root directory using pnpm workspace commands.
-
-```mermaid
-graph TD
-    RC[react-client]
-    CR[copilot-runtime-service]
-    LG[lang-graph-service]
-    RC <--> CR
-    CR <--> LG
-```
-
-1. **Clone the repo:**
-   ```sh
-   git clone https://github.com/jrhicks/minimal-copilotkit-langgraph.git
-   cd lang-graph-copilotkit
-   ```
-
-1. **Copy environment variables:**
-   ```sh
-   cp lang-graph-service/.env.example lang-graph-service/.env
-   # Edit lang-graph-service/.env and set your OPENAI_API_KEY and LANGSMITH_API_KEY
-   ```
-2. **Install and start all services:**
-
-   ```sh
-   pnpm install
-   ```
-
-   ```sh
-   pnpm run dev
-   ```
-
-- React client: http://localhost:5173
-- Copilot runtime: http://localhost:4000/copilotkit
-- LangGraph agent: http://localhost:8000/copilotkit
-
 ---
 
 ## Contributing
 
-Contributions are welcome!  I'm trying to get all the AG-UI features working.  You can find many examples at: https://github.com/CopilotKit/CopilotKit/tree/main/examples
+This repo was cloned from [minimal-copilotkit-langgraph](https://github.com/jrhicks/minimal-copilotkit-langgraph). Open any PRs there. You can find many examples at: https://github.com/CopilotKit/CopilotKit/tree/main/examples
 
 ---
 
-## Environment Variables
 
-- Copy `.env.example` to `.env` in `lang-graph-service`:
-  ```sh
-  cp lang-graph-service/.env.example lang-graph-service/.env
-  ```
-- Set your `OPENAI_API_KEY` and `LANGSMITH_API_KEY` in `lang-graph-service/.env`.
-
----
 
 ## License
 
